@@ -4,44 +4,28 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import com.tj.weather.di.AppContainer
+import com.tj.weather.feature.forecast.ui.MainScreen
+import com.tj.weather.feature.forecast.viewmodel.ForecastViewModel
 import com.tj.weather.ui.theme.WeatherTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        // Create ViewModel with manual DI
+        val viewModel = ForecastViewModel(
+            getCurrentLocationUseCase = AppContainer.provideGetCurrentLocationUseCase(),
+            getWeatherForecastUseCase = AppContainer.provideGetWeatherForecastUseCase(),
+            determineWeatherTypeUseCase = AppContainer.provideDetermineWeatherTypeUseCase()
+        )
+
         setContent {
             WeatherTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                MainScreen(viewModel = viewModel)
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    WeatherTheme {
-        Greeting("Android")
-    }
-}
