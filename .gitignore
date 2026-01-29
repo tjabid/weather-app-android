@@ -32,3 +32,8 @@ google-services.json
 # Android Profiling
 *.hprof
 /assets
+
+# TODO to remove later
+/.github
+/docs
+PRD.md
