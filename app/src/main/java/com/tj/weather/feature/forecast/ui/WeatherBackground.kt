@@ -65,9 +65,8 @@ fun WeatherBackground(
 private fun getBackgroundResource(weatherType: WeatherType): Int {
     return when (weatherType) {
         WeatherType.SUNNY -> com.tj.weather.R.drawable.bg_sunny
-        WeatherType.CLOUDY -> com.tj.weather.R.drawable.bg_cloudy
         WeatherType.RAINY -> com.tj.weather.R.drawable.bg_rainy
-        WeatherType.THUNDERSTORM -> com.tj.weather.R.drawable.bg_thunderstorm
+        WeatherType.CLOUDY, WeatherType.THUNDERSTORM -> com.tj.weather.R.drawable.bg_cloudy
         WeatherType.SNOW -> com.tj.weather.R.drawable.bg_snow
     }
 }
