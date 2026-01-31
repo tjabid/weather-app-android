@@ -17,7 +17,8 @@ class MainActivity : ComponentActivity() {
         // Create ViewModel with manual DI
         val viewModel = ForecastViewModel(
             getCurrentLocationUseCase = AppContainer.provideGetCurrentLocationUseCase(),
-            getWeatherForecastUseCase = AppContainer.provideGetWeatherForecastUseCase()
+            getWeatherForecastUseCase = AppContainer.provideGetWeatherForecastUseCase(),
+            getCachedLocationUseCase = AppContainer.provideGetCachedLocationUseCase()
         )
 
         setContent {
