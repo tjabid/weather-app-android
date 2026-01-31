@@ -1,5 +1,7 @@
 package com.tj.weather.feature.forecast.ui
 
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -7,6 +9,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -14,18 +20,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.tj.weather.R
 import com.tj.weather.domain.models.DailyForecast
 import com.tj.weather.domain.models.WeatherCondition
 import com.tj.weather.domain.models.WeatherType
 import com.tj.weather.ui.theme.WeatherTheme
-import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
-import java.util.Locale
 
 @Composable
 fun ForecastCard(
@@ -41,41 +46,46 @@ fun ForecastCard(
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            // Date Header
-            Text(
-                text = formatDate(dailyForecast.date),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
 
             // Main Weather Info Row
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.Top
             ) {
-                // Weather Description & Icon Placeholder
+
                 Column(
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.wrapContentHeight().weight(1F),
+                    horizontalAlignment = Alignment.Start
                 ) {
+                    // Date Header
                     Text(
-                        text = dailyForecast.weatherCondition.description,
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurface
+                        modifier = Modifier.wrapContentWidth(),
+                        text = dailyForecast.dateFormated,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.SemiBold
                     )
 
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
-                        text = "☀️",
-                        style = MaterialTheme.typography.displaySmall
+                        text = dailyForecast.weatherCondition.description,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 2
                     )
                 }
 
+                Image(
+                    painter = painterResource(id = dailyForecast.weatherType.toIconDrawable()),
+                    contentDescription = "${dailyForecast.weatherType.name} weather icon",
+                    modifier = Modifier.size(80.dp).weight(0.5F),
+                    contentScale = ContentScale.Fit
+                )
+
                 // Temperature Display
                 Column(
+                    modifier = Modifier.wrapContentWidth().weight(0.5F),
                     horizontalAlignment = Alignment.End
                 ) {
                     Text(
@@ -111,19 +121,19 @@ fun ForecastCard(
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 WeatherDetailItem(
-                    icon = "💧",
+                    icon = R.drawable.ic_humidity,
                     value = "${dailyForecast.humidity}%",
                     label = "Humidity"
                 )
 
                 WeatherDetailItem(
-                    icon = "💨",
+                    icon = R.drawable.ic_wind,
                     value = "${dailyForecast.windSpeed.toInt()} km/h",
                     label = "Wind"
                 )
 
                 WeatherDetailItem(
-                    icon = "🌧",
+                    icon = R.drawable.ic_rainy,
                     value = "${dailyForecast.precipitationProbability}%",
                     label = "Rain"
                 )
@@ -134,7 +144,7 @@ fun ForecastCard(
 
 @Composable
 private fun WeatherDetailItem(
-    icon: String,
+    @DrawableRes icon: Int = R.drawable.bg_snow,
     value: String,
     label: String,
     modifier: Modifier = Modifier
@@ -143,31 +153,32 @@ private fun WeatherDetailItem(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-        Text(
-            text = icon,
-            fontSize = 16.sp
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier
+        ) {
+            Image(
+                painter = painterResource(id = icon),
+                contentDescription = "Weather icon",
+                modifier = Modifier.size(16.dp),
+                contentScale = ContentScale.Crop
+            )
 
-        Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.width(4.dp))
 
-        Text(
-            text = value,
-            style = MaterialTheme.typography.bodyMedium,
-            fontWeight = FontWeight.Medium
-        )
+            Text(
+                text = value,
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Medium
+            )
+        }
 
         Text(
             text = label,
-            style = MaterialTheme.typography.bodySmall,
+            style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
-}
-
-private fun formatDate(timestamp: Long): String {
-    val date = Date(timestamp * 1000)
-    val format = SimpleDateFormat("EEEE, d MMM", Locale.getDefault())
-    return format.format(date)
 }
 
 @Preview(showBackground = true, name = "Sunny Day")
@@ -180,6 +191,7 @@ private fun ForecastCardSunnyPreview() {
         ForecastCard(
             dailyForecast = DailyForecast(
                 date = today,
+                dateFormated = "Sat, 31 Jan",
                 weatherCondition = WeatherCondition(
                     temperature = 28.0,
                     description = "Clear sky",
@@ -207,6 +219,7 @@ private fun ForecastCardRainyPreview() {
         ForecastCard(
             dailyForecast = DailyForecast(
                 date = futureDate,
+                dateFormated = "Sun, 1 Feb",
                 weatherCondition = WeatherCondition(
                     temperature = 18.0,
                     description = "Heavy rain",
@@ -234,6 +247,7 @@ private fun ForecastCardCloudyPreview() {
         ForecastCard(
             dailyForecast = DailyForecast(
                 date = tomorrow,
+                dateFormated = "Sun, 1 Feb",
                 weatherCondition = WeatherCondition(
                     temperature = 22.0,
                     description = "Partly cloudy",
@@ -260,6 +274,7 @@ private fun ForecastCardDarkPreview() {
         ForecastCard(
             dailyForecast = DailyForecast(
                 date = today,
+                dateFormated = "Sat, 31 Jan",
                 weatherCondition = WeatherCondition(
                     temperature = 28.0,
                     description = "Clear sky",
