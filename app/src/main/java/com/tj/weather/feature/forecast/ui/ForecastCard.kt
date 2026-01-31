@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -16,10 +15,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tj.weather.domain.models.DailyForecast
+import com.tj.weather.domain.models.WeatherCondition
+import com.tj.weather.domain.models.WeatherType
+import com.tj.weather.ui.theme.WeatherTheme
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -165,3 +169,111 @@ private fun formatDate(timestamp: Long): String {
     val format = SimpleDateFormat("EEEE, d MMM", Locale.getDefault())
     return format.format(date)
 }
+
+@Preview(showBackground = true, name = "Sunny Day")
+@Composable
+private fun ForecastCardSunnyPreview() {
+    WeatherTheme {
+        val calendar = Calendar.getInstance()
+        val today = calendar.timeInMillis / 1000
+
+        ForecastCard(
+            dailyForecast = DailyForecast(
+                date = today,
+                weatherCondition = WeatherCondition(
+                    temperature = 28.0,
+                    description = "Clear sky",
+                    iconCode = "01d"
+                ),
+                weatherType = WeatherType.SUNNY,
+                minTemperature = 22.0,
+                maxTemperature = 28.0,
+                humidity = 45,
+                windSpeed = 12.0,
+                precipitationProbability = 10
+            )
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "Rainy Day")
+@Composable
+private fun ForecastCardRainyPreview() {
+    WeatherTheme {
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_MONTH, 2)
+        val futureDate = calendar.timeInMillis / 1000
+
+        ForecastCard(
+            dailyForecast = DailyForecast(
+                date = futureDate,
+                weatherCondition = WeatherCondition(
+                    temperature = 18.0,
+                    description = "Heavy rain",
+                    iconCode = "10d"
+                ),
+                weatherType = WeatherType.RAINY,
+                minTemperature = 15.0,
+                maxTemperature = 20.0,
+                humidity = 85,
+                windSpeed = 25.0,
+                precipitationProbability = 90
+            )
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "Cloudy Day")
+@Composable
+private fun ForecastCardCloudyPreview() {
+    WeatherTheme {
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_MONTH, 1)
+        val tomorrow = calendar.timeInMillis / 1000
+
+        ForecastCard(
+            dailyForecast = DailyForecast(
+                date = tomorrow,
+                weatherCondition = WeatherCondition(
+                    temperature = 22.0,
+                    description = "Partly cloudy",
+                    iconCode = "02d"
+                ),
+                weatherType = WeatherType.CLOUDY,
+                minTemperature = 18.0,
+                maxTemperature = 24.0,
+                humidity = 60,
+                windSpeed = 15.0,
+                precipitationProbability = 30
+            )
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "Dark Theme - Sunny")
+@Composable
+private fun ForecastCardDarkPreview() {
+    WeatherTheme(darkTheme = true) {
+        val calendar = Calendar.getInstance()
+        val today = calendar.timeInMillis / 1000
+
+        ForecastCard(
+            dailyForecast = DailyForecast(
+                date = today,
+                weatherCondition = WeatherCondition(
+                    temperature = 28.0,
+                    description = "Clear sky",
+                    iconCode = "01d"
+                ),
+                weatherType = WeatherType.SUNNY,
+                minTemperature = 22.0,
+                maxTemperature = 28.0,
+                humidity = 45,
+                windSpeed = 12.0,
+                precipitationProbability = 10
+            )
+        )
+    }
+}
+
+
