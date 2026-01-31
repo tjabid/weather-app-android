@@ -2,6 +2,7 @@ package com.tj.weather.feature.forecast.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.tj.weather.domain.models.WeatherType
 import com.tj.weather.domain.usecases.DetermineWeatherTypeUseCase
 import com.tj.weather.domain.usecases.GetCurrentLocationUseCase
 import com.tj.weather.domain.usecases.GetWeatherForecastUseCase
@@ -35,7 +36,7 @@ class ForecastViewModel(
                             val currentWeatherType = if (forecast.dailyForecasts.isNotEmpty()) {
                                 determineWeatherTypeUseCase(forecast.dailyForecasts.first().weatherCondition.iconCode)
                             } else {
-                                com.tj.weather.domain.models.WeatherType.CLOUDY
+                                WeatherType.CLOUDY
                             }
 
                             _uiState.value = ForecastUiState.Success(
