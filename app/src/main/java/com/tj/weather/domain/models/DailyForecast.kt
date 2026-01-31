@@ -5,5 +5,8 @@ data class DailyForecast(
     val weatherCondition: WeatherCondition,
     val weatherType: WeatherType,
     val minTemperature: Double,
-    val maxTemperature: Double
+    val maxTemperature: Double,
+    val humidity: Int,
+    val windSpeed: Double,
+    val precipitationProbability: Int
 )

@@ -1,6 +1,7 @@
 package com.tj.weather.data.repositories
 
 import com.tj.weather.data.datasources.remote.WeatherApiService
+import com.tj.weather.data.mappers.WeatherApiMapper
 import com.tj.weather.domain.models.WeatherForecast
 import com.tj.weather.domain.repositories.WeatherRepository
 
@@ -26,6 +27,10 @@ class WeatherRepositoryImpl(
                     Exception("API Error: ${response.code}")
                 )
             }
+
+            // Map API response to domain model
+            val weatherForecast = WeatherApiMapper.toDomain(response)
+
             Result.success(weatherForecast)
         } catch (e: Exception) {
             Result.failure(e)

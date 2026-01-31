@@ -27,7 +27,10 @@ class MockWeatherRepository : WeatherRepository {
                 ),
                 weatherType = WeatherType.SUNNY,
                 minTemperature = 22.0,
-                maxTemperature = 28.0
+                maxTemperature = 28.0,
+                humidity = 45,
+                windSpeed = 12.0,
+                precipitationProbability = 10
             ),
             DailyForecast(
                 date = today + 86400,
@@ -38,7 +41,10 @@ class MockWeatherRepository : WeatherRepository {
                 ),
                 weatherType = WeatherType.CLOUDY,
                 minTemperature = 20.0,
-                maxTemperature = 25.0
+                maxTemperature = 25.0,
+                humidity = 60,
+                windSpeed = 15.0,
+                precipitationProbability = 30
             ),
             DailyForecast(
                 date = today + (86400 * 2),
@@ -49,7 +55,10 @@ class MockWeatherRepository : WeatherRepository {
                 ),
                 weatherType = WeatherType.RAINY,
                 minTemperature = 18.0,
-                maxTemperature = 22.0
+                maxTemperature = 22.0,
+                humidity = 85,
+                windSpeed = 20.0,
+                precipitationProbability = 80
             ),
             DailyForecast(
                 date = today + (86400 * 3),
@@ -60,7 +69,10 @@ class MockWeatherRepository : WeatherRepository {
                 ),
                 weatherType = WeatherType.CLOUDY,
                 minTemperature = 21.0,
-                maxTemperature = 26.0
+                maxTemperature = 26.0,
+                humidity = 55,
+                windSpeed = 10.0,
+                precipitationProbability = 20
             ),
             DailyForecast(
                 date = today + (86400 * 4),
@@ -71,7 +83,10 @@ class MockWeatherRepository : WeatherRepository {
                 ),
                 weatherType = WeatherType.SUNNY,
                 minTemperature = 23.0,
-                maxTemperature = 29.0
+                maxTemperature = 29.0,
+                humidity = 40,
+                windSpeed = 8.0,
+                precipitationProbability = 5
             )
         )
 
