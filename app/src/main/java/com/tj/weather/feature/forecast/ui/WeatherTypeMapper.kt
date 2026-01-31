@@ -4,6 +4,10 @@ import androidx.annotation.DrawableRes
 import com.tj.weather.R
 import com.tj.weather.domain.models.WeatherType
 
+/**
+ * Maps domain WeatherType to presentation layer drawable resources.
+ * This keeps the domain layer free of Android dependencies.
+ */
 @DrawableRes
 fun WeatherType.toIconDrawable(): Int {
     return when (this) {

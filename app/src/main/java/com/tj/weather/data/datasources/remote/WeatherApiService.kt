@@ -18,7 +18,7 @@ interface WeatherApiService {
      * @param units Temperature units (default: metric for Celsius)
      * @param count Number of forecast entries (default: 40 = 5 days * 8 entries per day)
      *
-     * Example: https://api.openweathermap.org/data/2.5/forecast?appid=47f8856d38d6a449bebf7d2618416f88&units=metric&cnt=40&lat=25.2048&lon=55.2708
+     * Example: https://api.openweathermap.org/data/2.5/forecast?appid=YOUR_API_KEY&units=metric&cnt=40&lat=25.2048&lon=55.2708
      */
     @GET("forecast")
     suspend fun getFiveDayForecast(

@@ -2,8 +2,6 @@ package com.tj.weather.feature.forecast.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tj.weather.domain.models.WeatherType
-import com.tj.weather.domain.usecases.DetermineWeatherTypeUseCase
 import com.tj.weather.domain.usecases.GetCurrentLocationUseCase
 import com.tj.weather.domain.usecases.GetWeatherForecastUseCase
 import com.tj.weather.feature.forecast.state.ForecastUiState
@@ -14,8 +12,7 @@ import kotlinx.coroutines.launch
 
 class ForecastViewModel(
     private val getCurrentLocationUseCase: GetCurrentLocationUseCase,
-    private val getWeatherForecastUseCase: GetWeatherForecastUseCase,
-    private val determineWeatherTypeUseCase: DetermineWeatherTypeUseCase
+    private val getWeatherForecastUseCase: GetWeatherForecastUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<ForecastUiState>(ForecastUiState.Loading)
@@ -33,15 +30,9 @@ class ForecastViewModel(
                 onSuccess = { location ->
                     getWeatherForecastUseCase(location).fold(
                         onSuccess = { forecast ->
-                            val currentWeatherType = if (forecast.dailyForecasts.isNotEmpty()) {
-                                determineWeatherTypeUseCase(forecast.dailyForecasts.first().weatherCondition.iconCode)
-                            } else {
-                                WeatherType.CLOUDY
-                            }
-
                             _uiState.value = ForecastUiState.Success(
                                 forecast = forecast,
-                                weatherType = currentWeatherType
+                                weatherType = forecast.dailyForecasts.first().weatherType
                             )
                         },
                         onFailure = { exception ->
