@@ -1,5 +1,7 @@
 package com.tj.weather.feature.forecast.ui
 
+import android.content.Intent
+import android.provider.Settings
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,34 +18,35 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun PermissionRationale(
-    onRequestPermission: () -> Unit,
-    onUseCachedLocation: () -> Unit,
-    showUseCachedLocation: Boolean = false,
+fun LocationServicesPrompt(
+    onRetry: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
+
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(32.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Icon(
             imageVector = Icons.Default.LocationOn,
-            contentDescription = "Location permission",
-            tint = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.size(56.dp)
+            contentDescription = "Location services disabled",
+            tint = MaterialTheme.colorScheme.error,
+            modifier = Modifier.size(64.dp)
         )
 
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
-            text = "Location Permission Required",
+            text = "Location Services Disabled",
             style = MaterialTheme.typography.headlineSmall,
             textAlign = TextAlign.Center
         )
@@ -51,7 +54,7 @@ fun PermissionRationale(
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = "We need your location to provide accurate weather forecasts for your area. Please enable it in app settings to continue.",
+            text = "Please enable location services in your device settings to get accurate weather forecasts for your area.",
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -59,16 +62,20 @@ fun PermissionRationale(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        Button(onClick = onRequestPermission) {
-            Text(text = "Grant Permission")
+        Button(
+            onClick = {
+                context.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+            }
+        ) {
+            Text(text = "Open Settings")
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
-        if (showUseCachedLocation) {
-            Button(onClick = onUseCachedLocation) {
-                Text(text = "Use Last Location")
-            }
+        Button(
+            onClick = onRetry
+        ) {
+            Text(text = "Retry")
         }
     }
 }

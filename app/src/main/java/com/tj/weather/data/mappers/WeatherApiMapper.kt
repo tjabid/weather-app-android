@@ -6,8 +6,10 @@ import com.tj.weather.domain.models.DailyForecast
 import com.tj.weather.domain.models.Location
 import com.tj.weather.domain.models.WeatherCondition
 import com.tj.weather.domain.models.WeatherForecast
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 import kotlin.math.roundToInt
 
 object WeatherApiMapper {
@@ -36,6 +38,12 @@ object WeatherApiMapper {
             location = location,
             dailyForecasts = dailyForecasts
         )
+    }
+
+    private fun formatDate(timestamp: Long): String {
+        val date = Date(timestamp * 1000)
+        val format = SimpleDateFormat("EEE, d MMM", Locale.getDefault())
+        return format.format(date)
     }
 
     private fun mapToDailyForecast(items: List<ForecastItem>): DailyForecast {
@@ -85,6 +93,7 @@ object WeatherApiMapper {
 
         return DailyForecast(
             date = dateTimestamp,
+            dateFormated = formatDate(dateTimestamp),
             weatherCondition = weatherCondition,
             weatherType = weatherType,
             minTemperature = minTemp,

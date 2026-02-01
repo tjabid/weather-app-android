@@ -19,39 +19,18 @@ import com.tj.weather.domain.models.WeatherType
 object WeatherTypeMapper {
 
     /**
-     * Map OpenWeatherMap icon code to WeatherType enum
+     * OpenWeatherMap icon code to [WeatherType]
+     * Reference for icons: https://openweathermap.org/weather-conditions?collection=other#Weather-Condition-Codes-2
      */
     fun fromApiCode(iconCode: String): WeatherType {
         return when (iconCode.take(2)) {
             "01" -> WeatherType.SUNNY
-            "02", "03" -> WeatherType.CLOUDY
-            "04" -> WeatherType.CLOUDY
+            "02", "03", "04" -> WeatherType.CLOUDY
             "09", "10" -> WeatherType.RAINY
             "11" -> WeatherType.THUNDERSTORM
             "13" -> WeatherType.SNOW
-            "50" -> WeatherType.CLOUDY // Mist/fog treated as cloudy
+            "50" -> WeatherType.CLOUDY // Mist/fog consider as cloudy
             else -> WeatherType.CLOUDY
-        }
-    }
-
-    /**
-     * Map OpenWeatherMap icon code to local weather icon filename
-     * Uses the weather icons from assets folder
-     */
-    fun toLocalIconName(iconCode: String): String {
-        val isNight = iconCode.endsWith("n")
-
-        return when (iconCode.take(2)) {
-            "01" -> if (isNight) "08.full-moon-light.png" else "01.sun-light.png"
-            "02" -> if (isNight) "10.cloudy-night-light.png" else "05.partial-cloudy-light.png"
-            "03" -> if (isNight) "16.cloudy-night-light.png" else "11.mostly-cloudy-light.png"
-            "04" -> "15.cloud-light.png"
-            "09" -> "18.heavy-rain-light.png"
-            "10" -> if (isNight) "06.rainyday-light.png" else "20.rain-light.png"
-            "11" -> "13.thunderstorm-light.png"
-            "13" -> "22.snow-light.png"
-            "50" -> "07.mostly-cloud-light.png" // Mist/fog
-            else -> "15.cloud-light.png"
         }
     }
 

@@ -20,6 +20,7 @@ class MockWeatherRepository : WeatherRepository {
         val dailyForecasts = listOf(
             DailyForecast(
                 date = today,
+                dateFormated = "Sat, 31 Jan",
                 weatherCondition = WeatherCondition(
                     temperature = 28.0,
                     description = "Sunny",
@@ -34,6 +35,7 @@ class MockWeatherRepository : WeatherRepository {
             ),
             DailyForecast(
                 date = today + 86400,
+                dateFormated = "Sat, 31 Jan",
                 weatherCondition = WeatherCondition(
                     temperature = 25.0,
                     description = "Partly Cloudy",
@@ -48,6 +50,7 @@ class MockWeatherRepository : WeatherRepository {
             ),
             DailyForecast(
                 date = today + (86400 * 2),
+                dateFormated = "Sat, 31 Jan",
                 weatherCondition = WeatherCondition(
                     temperature = 22.0,
                     description = "Rainy",
@@ -62,6 +65,7 @@ class MockWeatherRepository : WeatherRepository {
             ),
             DailyForecast(
                 date = today + (86400 * 3),
+                dateFormated = "Sat, 31 Jan",
                 weatherCondition = WeatherCondition(
                     temperature = 26.0,
                     description = "Cloudy",
@@ -76,6 +80,7 @@ class MockWeatherRepository : WeatherRepository {
             ),
             DailyForecast(
                 date = today + (86400 * 4),
+                dateFormated = "Sat, 31 Jan",
                 weatherCondition = WeatherCondition(
                     temperature = 29.0,
                     description = "Clear Sky",

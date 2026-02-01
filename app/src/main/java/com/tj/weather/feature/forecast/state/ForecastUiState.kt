@@ -16,5 +16,11 @@ sealed class ForecastUiState {
         val retryable: Boolean
     ) : ForecastUiState()
 
-    data object PermissionDenied : ForecastUiState()
+    data class PermissionDenied(
+        val hasCachedLocation: Boolean = false
+    ) : ForecastUiState()
+
+    data object LocationServicesDisabled : ForecastUiState()
+
+    data object LoadLocation : ForecastUiState()
 }

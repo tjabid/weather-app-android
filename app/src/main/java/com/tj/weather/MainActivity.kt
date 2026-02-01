@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
         val viewModel = ForecastViewModel(
             getCurrentLocationUseCase = AppContainer.provideGetCurrentLocationUseCase(),
             getWeatherForecastUseCase = AppContainer.provideGetWeatherForecastUseCase(),
-            determineWeatherTypeUseCase = AppContainer.provideDetermineWeatherTypeUseCase()
+            getCachedLocationUseCase = AppContainer.provideGetCachedLocationUseCase()
         )
 
         setContent {

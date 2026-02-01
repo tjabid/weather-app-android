@@ -2,14 +2,13 @@ package com.tj.weather.di
 
 import android.content.Context
 import com.tj.weather.BuildConfig
-import com.tj.weather.data.datasources.remote.LocationDataSource
+import com.tj.weather.data.datasources.local.LocationLocalDataSource
 import com.tj.weather.data.network.NetworkProvider
 import com.tj.weather.data.repositories.LocationRepositoryImpl
 import com.tj.weather.data.repositories.WeatherRepositoryImpl
 import com.tj.weather.domain.repositories.LocationRepository
 import com.tj.weather.domain.repositories.WeatherRepository
-import com.tj.weather.domain.usecases.DetermineWeatherTypeUseCase
-import com.tj.weather.domain.usecases.GetCurrentLocationUseCase
+import com.tj.weather.domain.usecases.GetCachedLocationUseCase
 import com.tj.weather.domain.usecases.GetWeatherForecastUseCase
 
 object AppContainer {
@@ -18,8 +17,8 @@ object AppContainer {
 
     fun initialize(context: Context) {
         // Location
-        val locationDataSource = LocationDataSource(context)
-        locationRepository = LocationRepositoryImpl(locationDataSource)
+        val locationLocalDataSource = LocationLocalDataSource(context)
+        locationRepository = LocationRepositoryImpl(locationLocalDataSource)
 
         // Network - Retrofit setup
         val okHttpClient = NetworkProvider.provideOkHttpClient()
@@ -33,15 +32,11 @@ object AppContainer {
         )
     }
 
-    fun provideGetCurrentLocationUseCase(): GetCurrentLocationUseCase {
-        return GetCurrentLocationUseCase(locationRepository)
+    fun provideGetCachedLocationUseCase(): GetCachedLocationUseCase {
+        return GetCachedLocationUseCase(locationRepository)
     }
 
     fun provideGetWeatherForecastUseCase(): GetWeatherForecastUseCase {
         return GetWeatherForecastUseCase(weatherRepository)
-    }
-
-    fun provideDetermineWeatherTypeUseCase(): DetermineWeatherTypeUseCase {
-        return DetermineWeatherTypeUseCase()
     }
 }
