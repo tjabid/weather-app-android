@@ -23,6 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.tj.weather.R
@@ -37,8 +39,18 @@ fun ForecastCard(
     dailyForecast: DailyForecast,
     modifier: Modifier = Modifier
 ) {
+    val semanticDescription = "${dailyForecast.dateFormated}. " +
+            "${dailyForecast.weatherCondition.description}. " +
+            "Temperature ${dailyForecast.weatherCondition.temperature.toInt()} degrees celsius. " +
+            "High ${dailyForecast.maxTemperature.toInt()}, Low ${dailyForecast.minTemperature.toInt()} degrees. " +
+            "Humidity ${dailyForecast.humidity} percent. " +
+            "Wind speed ${dailyForecast.windSpeed.toInt()} kilometers per hour. " +
+            "Chance of rain ${dailyForecast.precipitationProbability} percent."
+
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .semantics { contentDescription = semanticDescription },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(
@@ -159,7 +171,7 @@ private fun WeatherDetailItem(
         ) {
             Image(
                 painter = painterResource(id = icon),
-                contentDescription = "Weather icon",
+                contentDescription = "$label icon",
                 modifier = Modifier.size(16.dp),
                 contentScale = ContentScale.Crop
             )
