@@ -8,6 +8,7 @@ import com.tj.weather.data.repositories.LocationRepositoryImpl
 import com.tj.weather.data.repositories.WeatherRepositoryImpl
 import com.tj.weather.domain.repositories.LocationRepository
 import com.tj.weather.domain.repositories.WeatherRepository
+import com.tj.weather.domain.usecases.CacheLocationUseCase
 import com.tj.weather.domain.usecases.GetCachedLocationUseCase
 import com.tj.weather.domain.usecases.GetWeatherForecastUseCase
 
@@ -34,6 +35,10 @@ object AppContainer {
 
     fun provideGetCachedLocationUseCase(): GetCachedLocationUseCase {
         return GetCachedLocationUseCase(locationRepository)
+    }
+
+    fun provideCacheLocationUseCase(): CacheLocationUseCase {
+        return CacheLocationUseCase(locationRepository)
     }
 
     fun provideGetWeatherForecastUseCase(): GetWeatherForecastUseCase {
