@@ -1,6 +1,5 @@
 package com.tj.weather.feature.forecast.ui
 
-import android.Manifest
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.Context
