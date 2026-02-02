@@ -15,33 +15,9 @@ A modern weather forecast application built with Jetpack Compose, following Clea
 
 This app follows **Clean Architecture** with **MVVM** pattern using **Jetpack Compose** for UI.
 
-### Layer Structure
+![Search_1_recent_search](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*g6bqauGqu1u9Q1kZoNBvDQ.png)
+Above image used from [this](https://medium.com/@ami0275/mvvm-clean-architecture-pattern-in-android-with-use-cases-eff7edc2ef76) article
 
-```
-com.tj.weather/
-├── domain/              # Core Business Logic (Pure Kotlin)
-│   ├── models/          # Domain entities (Location, WeatherForecast, etc.)
-│   ├── repositories/    # Repository interfaces
-│   └── usecases/        # Business logic use cases
-│
-├── data/                # Data Layer (Implementation)
-│   ├── datasources/     # API services, location services
-│   │   └── remote/      # Retrofit API services, FusedLocationProvider
-│   │   └── local/       # Local caching using shared prefernce 
-│   ├── repositories/    # Repository implementations
-│   ├── mappers/         # API DTO to Domain model mappers
-│   └── network/         # Network provider (Retrofit, OkHttp)
-│
-├── feature/             # Presentation Layer (MVVM)
-│   └── forecast/        # Forecast feature module
-│       ├── viewmodel/   # ViewModels (ForecastViewModel)
-│       ├── ui/          # Compose screens & components
-│       └── state/       # UI state models (ForecastUiState)
-│
-├── di/                  # Dependency Injection (Manual DI / Ready for Hilt)
-│
-└── ui/                  # Shared UI components & theme (Material 3)
-```
 
 ### Dependency Rule
 
@@ -77,7 +53,7 @@ Repository Implementation (Data)
 Data Sources (API, Location Services)
 ```
 
-## 📦 Dependencies
+## Dependencies
 
 ### Core
 - Kotlin 1.9.0
@@ -98,7 +74,21 @@ Data Sources (API, Location Services)
 ### Location
 - Google Play Services Location 21.1.0
 
-## Testing Technologies Used
+### Code Quality & Analysis
+- SonarQube Gradle Plugin 4.4.1.3373
+
+#### SonarQube Cloud Integration
+
+This project uses **SonarQube Cloud** for continuous code quality inspection and static code analysis. SonarQube helps identify bugs, code smells, security vulnerabilities, and technical debt.
+
+- **Automated Code Scanning**: Analyzes code on every push/PR
+- **Security Vulnerability Detection**: Identifies potential security issues
+- **Code Coverage Tracking**: Monitors test coverage across the codebase
+- **Code Smell Detection**: Highlights maintainability issues
+- **Duplicated Code Analysis**: Detects code duplication
+- **Technical Debt Measurement**: Quantifies maintenance costs
+
+## Testing Technologies 
 
 ### Core Testing Libraries
 - **JUnit 4.13.2**: Test framework
@@ -215,6 +205,8 @@ Check Permission → Check Location Services
 ## Theming
 
 The app supports both **Light** and **Dark** themes following Material Design 3 guidelines.
+
+![forecast_card.png](screenshots/forecast_card.png)
 
 **Color Palette**:
 - Primary: Weather Blue (#2196F3)
