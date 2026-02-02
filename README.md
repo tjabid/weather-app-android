@@ -56,6 +56,16 @@ Data Sources (API, Location Services)
 
 ## UI Components
 
+### 5 days Forecast Screen
+| Light Theme | Dark Theme                        |
+|--------------------------------------|-----------------------------------|
+| ![light.png](screenshots/light.png)  | ![dark.png](screenshots/dark.png) |
+
+### Permission Screen
+| Cached Location                     | Without Cached Location           |
+|-------------------------------------|-----------------------------------|
+| ![permissions-with-caching.png](screenshots/permissions-with-caching.png) | ![permissions.png](screenshots/permissions.png) |
+
 ### Screens
 - **MainScreen**: Main container handling permission and location checks
 - **ForecastContent**: Displays 5-day forecast list
