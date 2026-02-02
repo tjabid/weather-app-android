@@ -26,7 +26,7 @@ object WeatherApiMapper {
                 // Convert timestamp to date string (YYYY-MM-DD)
                 val calendar = Calendar.getInstance()
                 calendar.time = Date(forecastItem.timestamp * 1000)
-                "${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH)}-${calendar.get(Calendar.DAY_OF_MONTH)}"
+                "${calendar[Calendar.YEAR]}-${calendar[Calendar.MONTH]}-${calendar[Calendar.DAY_OF_MONTH]}"
             }
             .map { (_, items) ->
                 mapToDailyForecast(items)
@@ -52,17 +52,17 @@ object WeatherApiMapper {
         val primaryItem = items.minByOrNull { item ->
             val calendar = Calendar.getInstance()
             calendar.time = Date(item.timestamp * 1000)
-            val hour = calendar.get(Calendar.HOUR_OF_DAY)
+            val hour = calendar[Calendar.HOUR_OF_DAY]
             kotlin.math.abs(hour - 12) // Find closest to noon
         } ?: items.first()
 
         // Get the date (start of day timestamp)
         val calendar = Calendar.getInstance()
         calendar.time = Date(primaryItem.timestamp * 1000)
-        calendar.set(Calendar.HOUR_OF_DAY, 0)
-        calendar.set(Calendar.MINUTE, 0)
-        calendar.set(Calendar.SECOND, 0)
-        calendar.set(Calendar.MILLISECOND, 0)
+        calendar[Calendar.HOUR_OF_DAY] = 0
+        calendar[Calendar.MINUTE] = 0
+        calendar[Calendar.SECOND] = 0
+        calendar[Calendar.MILLISECOND] = 0
         val dateTimestamp = calendar.timeInMillis / 1000
 
         // Calculate min/max temperatures for the day
