@@ -115,7 +115,7 @@ fun MainScreen(
                             cancellationTokenSource.token
                         )
                             .addOnSuccessListener(viewModel::setLocation)
-                            .addOnFailureListener { exception ->
+                            .addOnFailureListener { _ ->
                                 fusedLocationClient.lastLocation
                                     .addOnSuccessListener(viewModel::setLocation)
                                     .addOnFailureListener(viewModel::setLocationError)
