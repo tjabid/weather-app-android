@@ -2,7 +2,7 @@
 
 A modern weather forecast application built with Jetpack Compose, following Clean Architecture and MVVM pattern.
 
-## 📱 Features
+##  Features
 
 - **5-Day Weather Forecast**: View detailed weather forecasts for the next 5 days
 - **Real-time Location**: Uses device's current location via FusedLocationProviderClient
@@ -11,7 +11,7 @@ A modern weather forecast application built with Jetpack Compose, following Clea
 - **Offline Support**: Caches last known location for faster loading
 - **Graceful Error Handling**: User-friendly error messages with retry options
 
-## 🏗️ Architecture
+## Architecture
 
 This app follows **Clean Architecture** with **MVVM** pattern using **Jetpack Compose** for UI.
 
@@ -27,6 +27,7 @@ com.tj.weather/
 ├── data/                # Data Layer (Implementation)
 │   ├── datasources/     # API services, location services
 │   │   └── remote/      # Retrofit API services, FusedLocationProvider
+│   │   └── local/       # Local caching using shared prefernce 
 │   ├── repositories/    # Repository implementations
 │   ├── mappers/         # API DTO to Domain model mappers
 │   └── network/         # Network provider (Retrofit, OkHttp)
@@ -54,98 +55,26 @@ com.tj.weather/
 
 ```
 UI (Composable)
-    ↓ observes StateFlow
+    | 
+    | observes StateFlow
+    ↓ 
 ViewModel
-    ↓ executes
+    | 
+    | executes
+    ↓
 Use Cases
-    ↓ calls
+    | 
+    | calls
+    ↓ 
 Repository Interface (Domain)
-    ↓ implemented by
+    | 
+    | implemented by
+    ↓ 
 Repository Implementation (Data)
-    ↓ uses
+    | 
+    | uses
+    ↓ 
 Data Sources (API, Location Services)
-```
-
-## 🚀 Setup Instructions
-
-### Prerequisites
-
-- Android Studio Hedgehog (2023.1.1) or later
-- JDK 17
-- Android SDK 34
-- Minimum SDK 24 (Android 7.0)
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/yourusername/weather-app-android.git
-cd weather-app-android
-```
-
-### 2. API Key Configuration
-
-This app uses the [OpenWeatherMap API](https://openweathermap.org/api) for weather data.
-
-#### Get Your API Key
-
-1. Sign up at [OpenWeatherMap](https://home.openweathermap.org/users/sign_up)
-2. Navigate to [API Keys](https://home.openweathermap.org/api_keys)
-3. Generate a new API key
-
-#### Configure in Project
-
-Create or edit `local.properties` in the project root:
-
-```properties
-# local.properties (This file is gitignored)
-sdk.dir=/path/to/your/Android/sdk
-WEATHER_API_KEY=your_api_key_here
-```
-
-**⚠️ Important**: Never commit `local.properties` to version control. It's already in `.gitignore`.
-
-### 3. Build and Run
-
-```bash
-# Using Gradle
-./gradlew assembleDebug
-
-# Or run directly from Android Studio
-# Click Run → Run 'app'
-```
-
-## 🧪 Testing Instructions
-
-### Run Unit Tests
-
-```bash
-# Run all tests
-./gradlew test
-
-# Run specific test class
-./gradlew test --tests "GetWeatherForecastUseCaseTest"
-
-# Run tests with coverage
-./gradlew testDebugUnitTestCoverage
-```
-
-### Run Instrumented Tests
-
-```bash
-# Run all instrumented tests
-./gradlew connectedAndroidTest
-
-# Run specific instrumented test
-./gradlew connectedAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.tj.weather.MainActivityTest
-```
-
-### Code Coverage
-
-```bash
-# Generate coverage report
-./gradlew testDebugUnitTestCoverage
-
-# Report location: build/reports/coverage/test/debug/index.html
 ```
 
 ## 📦 Dependencies
@@ -185,7 +114,7 @@ WEATHER_API_KEY=your_api_key_here
 - **Test Dispatcher**: StandardTestDispatcher for coroutine testing
 
 
-## 🎨 UI Components
+## UI Components
 
 ### Screens
 - **MainScreen**: Main container handling permission and location checks
@@ -200,7 +129,7 @@ WEATHER_API_KEY=your_api_key_here
 - **WeatherBackground**: Dynamic background based on weather type
 - **WeatherDetailItem**: Small weather metric display (humidity, wind, etc.)
 
-## 🔐 Permissions
+## Permissions
 
 The app requires the following permissions:
 
@@ -217,7 +146,7 @@ The app requires the following permissions:
 3. **Fetch Location**: Uses FusedLocationProviderClient to get current location
 4. **Graceful Fallback**: Shows permission rationale if denied, with option to use cached location
 
-## 🌐 API Integration
+## API Integration
 
 ### OpenWeatherMap 5-Day Forecast API
 
@@ -240,13 +169,13 @@ The app provides user-friendly error messages for various scenarios:
 
 | Error Type | Message | Retryable |
 |------------|---------|-----------|
-| No Internet | "No internet connection. Please check your network and try again." | ✅ |
-| Timeout | "Request timed out. Please check your connection and try again." | ✅ |
-| API Error (401) | "Invalid API key. Please contact support." | ❌ |
-| API Error (404) | "Weather data not found for this location." | ✅ |
-| API Error (429) | "Too many requests. Please try again in a few moments." | ✅ |
-| Location Services Off | "Please enable location services in your device settings..." | ✅ |
-| Permission Denied | "Location Permission Required - We need your location to provide..." | ✅ |
+| No Internet | "No internet connection. Please check your network and try again." | Yes       |
+| Timeout | "Request timed out. Please check your connection and try again." | Yes       |
+| API Error (401) | "Invalid API key. Please contact support." | No        |
+| API Error (404) | "Weather data not found for this location." | Yes       |
+| API Error (429) | "Too many requests. Please try again in a few moments." | Yes       |
+| Location Services Off | "Please enable location services in your device settings..." | Yes       |
+| Permission Denied | "Location Permission Required - We need your location to provide..." | Yes       |
 
 ## 📊 State Management
 
@@ -275,7 +204,7 @@ Check Permission → Check Location Services
 ├────────────────────┼───────────────────┼──────────────┤
 │ PermissionDenied   │ LocationServices  │ LoadLocation │
 │                    │ Disabled          │      ↓       │
-│                    │                   │  Fetch Loc   │
+│                    │                   │Fetch Location│
 │                    │                   │      ↓       │
 │                    │                   │ Fetch Weather│
 │                    │                   │      ↓       │
@@ -283,7 +212,7 @@ Check Permission → Check Location Services
 └────────────────────┴───────────────────┴──────────────┘
 ```
 
-## 🎨 Theming
+## Theming
 
 The app supports both **Light** and **Dark** themes following Material Design 3 guidelines.
 
@@ -300,7 +229,7 @@ The app supports both **Light** and **Dark** themes following Material Design 3 
 - Body: Description text
 - Label: Small details
 
-## 🌤️ Weather Type Mapping
+## Weather Type Mapping
 
 | OpenWeatherMap Code | App Weather Type | Background |
 |---------------------|------------------|------------|
@@ -312,9 +241,7 @@ The app supports both **Light** and **Dark** themes following Material Design 3 
 
 **Reference**: [OpenWeatherMap Weather Conditions](https://openweathermap.org/weather-conditions)
 
-## 🛠️ Build Configuration
-
-### Gradle
+## Build Configuration
 
 - Gradle: 8.6
 - Android Gradle Plugin: 8.5.0
@@ -323,13 +250,10 @@ The app supports both **Light** and **Dark** themes following Material Design 3 
 - Min SDK: 24
 - Compile SDK: 34
 
-### ProGuard
 
-ProGuard rules are configured in `proguard-rules.pro` for release builds.
+## Libraries Used
 
-
-## 🙏 Acknowledgments
-
-- OpenWeatherMap for weather data API
-- Material Design 3 for design guidelines
-- Jetpack Compose team for the modern UI toolkit
+- [OpenWeatherMap](https://openweathermap.org/forecast5?collection=current_forecast) for weather data API
+- [Material Design 3](https://developer.android.com/develop/ui/compose/designsystems/material3) for design guidelines
+- Jetpack Compose for the modern UI toolkit
+- [Icons](https://fonts.google.com/icons)
