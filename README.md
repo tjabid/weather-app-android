@@ -24,7 +24,7 @@ Above image used from [this](https://medium.com/@ami0275/mvvm-clean-architecture
 **Inner layers NEVER depend on outer layers:**
 - **Domain** → No dependencies (pure Kotlin)
 - **Data** → Depends on Domain only
-- **Presentation** → Depends on Domain only  
+- **Presentation** → Depends on Domain only
 - **DI** → Wires everything together
 
 ### Data Flow
@@ -53,58 +53,18 @@ Repository Implementation (Data)
 Data Sources (API, Location Services)
 ```
 
-## Dependencies
-
-### Core
-- Kotlin 1.9.0
-- Jetpack Compose (BOM 2024.02.00)
-- Material Design 3
-- Coroutines 1.7.3
-
-### Architecture
-- ViewModel & Lifecycle
-- Navigation Compose (Ready for integration)
-- Hilt (Ready for integration)
-
-### Network
-- Retrofit 2.9.0
-- OkHttp 4.12.0
-- Gson Converter
-
-### Location
-- Google Play Services Location 21.1.0
-
-### Code Quality & Analysis
-- SonarQube Gradle Plugin 4.4.1.3373
-
-#### SonarQube Cloud Integration
-
-This project uses **SonarQube Cloud** for continuous code quality inspection and static code analysis. SonarQube helps identify bugs, code smells, security vulnerabilities, and technical debt.
-
-- **Automated Code Scanning**: Analyzes code on every push/PR
-- **Security Vulnerability Detection**: Identifies potential security issues
-- **Code Coverage Tracking**: Monitors test coverage across the codebase
-- **Code Smell Detection**: Highlights maintainability issues
-- **Duplicated Code Analysis**: Detects code duplication
-- **Technical Debt Measurement**: Quantifies maintenance costs
-
-## Testing Technologies 
-
-### Core Testing Libraries
-- **JUnit 4.13.2**: Test framework
-- **Mockito Core 5.7.0**: Mocking framework
-- **Mockito Kotlin 5.2.1**: Kotlin extensions for Mockito
-- **Coroutines Test 1.7.3**: Testing coroutines
-- **Truth 1.4.0**: Assertion library (reserved for future use)
-
-### Testing Patterns Used
-- **AAA Pattern**: Arrange, Act, Assert
-- **Given-When-Then**: BDD-style test naming
-- **Test Doubles**: Mocks for dependencies
-- **Test Dispatcher**: StandardTestDispatcher for coroutine testing
-
 
 ## UI Components
+
+### 5 days Forecast Screen
+| Light Theme | Dark Theme                        |
+|--------------------------------------|-----------------------------------|
+| ![light.png](screenshots/light.png)  | ![dark.png](screenshots/dark.png) |
+
+### Permission Screen
+| Cached Location                     | Without Cached Location           |
+|-------------------------------------|-----------------------------------|
+| ![permissions-with-caching.png](screenshots/permissions-with-caching.png) | ![permissions.png](screenshots/permissions.png) |
 
 ### Screens
 - **MainScreen**: Main container handling permission and location checks
@@ -242,8 +202,58 @@ The app supports both **Light** and **Dark** themes following Material Design 3 
 - Min SDK: 24
 - Compile SDK: 34
 
+## Code Quality & Analysis
+- SonarQube Gradle Plugin 4.4.1.3373
 
-## Libraries Used
+### SonarQube Cloud Integration
+
+This project uses **SonarQube Cloud** for continuous code quality inspection and static code analysis. SonarQube helps identify bugs, code smells, security vulnerabilities, and technical debt.
+
+- **Automated Code Scanning**: Analyzes code on every push/PR
+- **Security Vulnerability Detection**: Identifies potential security issues
+- **Code Coverage Tracking**: Monitors test coverage across the codebase
+- **Code Smell Detection**: Highlights maintainability issues
+- **Duplicated Code Analysis**: Detects code duplication
+- **Technical Debt Measurement**: Quantifies maintenance costs
+
+## Testing Technologies
+
+### Core Testing Libraries
+- **JUnit 4.13.2**: Test framework
+- **Mockito Core 5.7.0**: Mocking framework
+- **Mockito Kotlin 5.2.1**: Kotlin extensions for Mockito
+- **Coroutines Test 1.7.3**: Testing coroutines
+- **Truth 1.4.0**: Assertion library (reserved for future use)
+
+### Testing Patterns Used
+- **AAA Pattern**: Arrange, Act, Assert
+- **Given-When-Then**: BDD-style test naming
+- **Test Doubles**: Mocks for dependencies
+- **Test Dispatcher**: StandardTestDispatcher for coroutine testing
+
+
+## Dependencies
+
+### Core
+- Kotlin 1.9.0
+- Jetpack Compose (BOM 2024.02.00)
+- Material Design 3
+- Coroutines 1.7.3
+
+### Architecture
+- ViewModel & Lifecycle
+- Navigation Compose (Ready for integration)
+- Hilt (Ready for integration)
+
+### Network
+- Retrofit 2.9.0
+- OkHttp 4.12.0
+- Gson Converter
+
+### Location
+- Google Play Services Location 21.1.0
+
+### Libraries Used
 
 - [OpenWeatherMap](https://openweathermap.org/forecast5?collection=current_forecast) for weather data API
 - [Material Design 3](https://developer.android.com/develop/ui/compose/designsystems/material3) for design guidelines
