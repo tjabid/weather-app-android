@@ -169,11 +169,21 @@ WEATHER_API_KEY=your_api_key_here
 ### Location
 - Google Play Services Location 21.1.0
 
-### Testing
-- JUnit 4.13.2
-- Mockito
-- Coroutines Test
-- Hilt Testing (Ready)
+## Testing Technologies Used
+
+### Core Testing Libraries
+- **JUnit 4.13.2**: Test framework
+- **Mockito Core 5.7.0**: Mocking framework
+- **Mockito Kotlin 5.2.1**: Kotlin extensions for Mockito
+- **Coroutines Test 1.7.3**: Testing coroutines
+- **Truth 1.4.0**: Assertion library (reserved for future use)
+
+### Testing Patterns Used
+- **AAA Pattern**: Arrange, Act, Assert
+- **Given-When-Then**: BDD-style test naming
+- **Test Doubles**: Mocks for dependencies
+- **Test Dispatcher**: StandardTestDispatcher for coroutine testing
+
 
 ## 🎨 UI Components
 
@@ -302,13 +312,6 @@ The app supports both **Light** and **Dark** themes following Material Design 3 
 
 **Reference**: [OpenWeatherMap Weather Conditions](https://openweathermap.org/weather-conditions)
 
-## 📝 Naming Conventions
-
-- **Classes**: PascalCase (e.g., `ForecastViewModel`, `WeatherRepository`)
-- **Functions**: camelCase (e.g., `loadWeatherForecast`, `getCurrentLocation`)
-- **Variables**: camelCase (e.g., `weatherForecast`, `dailyForecasts`)
-- **Constants**: UPPER_SNAKE_CASE (e.g., `BASE_URL`, `TIMEOUT_SECONDS`)
-
 ## 🛠️ Build Configuration
 
 ### Gradle
@@ -324,35 +327,6 @@ The app supports both **Light** and **Dark** themes following Material Design 3 
 
 ProGuard rules are configured in `proguard-rules.pro` for release builds.
 
-## 📈 Performance
-
-- **Launch to Forecast**: Target < 3 seconds
-- **Network Calls**: All on background threads using Coroutines
-- **Compose Recompositions**: Optimized with remember and derivedStateOf
-- **Image Loading**: Optimized vector drawables
-
-## ♿ Accessibility
-
-- **Minimum Touch Targets**: 48dp (Material Design guidelines)
-- **Content Descriptions**: All images and icons have semantic descriptions
-- **Screen Reader Support**: Proper labeling for TalkBack
-- **Color Contrast**: AA compliance (4.5:1 for normal text)
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 👨‍💻 Author
-
-**Abdul Rahim**
 
 ## 🙏 Acknowledgments
 
