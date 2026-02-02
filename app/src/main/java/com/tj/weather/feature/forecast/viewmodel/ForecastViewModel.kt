@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tj.weather.domain.models.Location
 import com.tj.weather.domain.models.UnableToFetchLocationException
+import com.tj.weather.domain.usecases.CacheLocationUseCase
 import com.tj.weather.domain.usecases.GetCachedLocationUseCase
 import com.tj.weather.domain.usecases.GetWeatherForecastUseCase
 import com.tj.weather.feature.forecast.state.ForecastUiState
@@ -14,7 +15,8 @@ import kotlinx.coroutines.launch
 
 class ForecastViewModel(
     private val getWeatherForecastUseCase: GetWeatherForecastUseCase,
-    private val getCachedLocationUseCase: GetCachedLocationUseCase
+    private val getCachedLocationUseCase: GetCachedLocationUseCase,
+    private val cacheLocationUseCase: CacheLocationUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<ForecastUiState>(ForecastUiState.Loading)
@@ -61,8 +63,13 @@ class ForecastViewModel(
     fun setLocation(location: android.location.Location?) {
         viewModelScope.launch {
             location?.let {
+                val domainLocation = Location(it.latitude, it.longitude)
                 _uiState.value = ForecastUiState.Loading
-                fetchWeatherForecast(Location(it.latitude, it.longitude))
+
+                // Cache the location for future use
+                cacheLocationUseCase(domainLocation)
+
+                fetchWeatherForecast(domainLocation)
             } ?: setLocationError()
         }
     }

@@ -1,5 +1,6 @@
 package com.tj.weather.feature.forecast.viewmodel
 
+import com.tj.weather.domain.usecases.CacheLocationUseCase
 import com.tj.weather.domain.usecases.GetCachedLocationUseCase
 import com.tj.weather.domain.usecases.GetWeatherForecastUseCase
 import com.tj.weather.feature.forecast.state.ForecastUiState
@@ -25,6 +26,7 @@ class ForecastViewModelTest {
 
     private lateinit var getWeatherForecastUseCase: GetWeatherForecastUseCase
     private lateinit var getCachedLocationUseCase: GetCachedLocationUseCase
+    private lateinit var cacheLocationUseCase: CacheLocationUseCase
     private lateinit var viewModel: ForecastViewModel
 
     private val testDispatcher = StandardTestDispatcher()
@@ -37,7 +39,12 @@ class ForecastViewModelTest {
         Dispatchers.setMain(testDispatcher)
         getWeatherForecastUseCase = mock()
         getCachedLocationUseCase = mock()
-        viewModel = ForecastViewModel(getWeatherForecastUseCase, getCachedLocationUseCase)
+        cacheLocationUseCase = mock()
+        viewModel = ForecastViewModel(
+            getWeatherForecastUseCase,
+            getCachedLocationUseCase,
+            cacheLocationUseCase
+        )
     }
 
     @After
@@ -145,6 +152,23 @@ class ForecastViewModelTest {
         val state = viewModel.uiState.value
         assertTrue(state is ForecastUiState.Success)
         assertEquals(testForecast, (state as ForecastUiState.Success).forecast)
+    }
+
+    @Test
+    fun `setLocation caches location when fetched successfully`() = runTest {
+        // Given
+        val androidLocation = mock<android.location.Location>().apply {
+            whenever(latitude).thenReturn(testLocation.latitude)
+            whenever(longitude).thenReturn(testLocation.longitude)
+        }
+        whenever(getWeatherForecastUseCase(any())).thenReturn(Result.success(testForecast))
+
+        // When
+        viewModel.setLocation(androidLocation)
+        advanceUntilIdle()
+
+        // Then
+        org.mockito.kotlin.verify(cacheLocationUseCase).invoke(testLocation)
     }
 
     @Test
